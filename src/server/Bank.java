@@ -1,7 +1,10 @@
 package server;
 
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+
 import java.util.Date;
 import java.util.List;
 
@@ -15,16 +18,28 @@ import exceptions.InvalidFunds;
 public class Bank extends UnicastRemoteObject implements BankInterface {
 	private List<Account> accounts; // users accounts
 	public Bank() throws RemoteException {
-	
-	}
-	
-	public static void main(String args[]) throws Exception {	
 		Account user1 = new Account("user1", "pass1");
 		Account user2 = new Account("user2", "pass2");
 		Account user3 = new Account("user3", "pass3");
 		accounts.add(user1);
 		accounts.add(user2);
 		accounts.add(user3);
+	}
+	
+	public static void main(String args[]) throws Exception {	
+		if (System.getSecurityManager() == null) {
+            System.setSecurityManager(new SecurityManager());
+        }
+        try {
+            String name = "Bank";
+            BankInterface bank = new Bank();
+            Registry registry = LocateRegistry.getRegistry();
+            registry.rebind(name, bank);
+            System.out.println("Bank bound");
+        } catch (Exception e) {
+            System.err.println("Bank exception:");
+            e.printStackTrace();
+        }
 	}
 	
 	public void login(String username, String password) throws RemoteException, InvalidLogin {
