@@ -1,7 +1,10 @@
 package server;
 
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -13,12 +16,12 @@ import exceptions.InvalidAccount;
 import exceptions.InvalidFunds;
 
 public class Bank extends UnicastRemoteObject implements BankInterface {
-	private List<Account> accounts; // users accounts
+
+	private static List<Account> accounts = new ArrayList<Account>(); // users accounts
+	private static String withdrawTransaction = "withdraw Transaction";
+	private static String depositTransaction = "Deposit Transaction";
+
 	public Bank() throws RemoteException {
-	
-	}
-	
-	public static void main(String args[]) throws Exception {	
 		Account user1 = new Account("user1", "pass1");
 		Account user2 = new Account("user2", "pass2");
 		Account user3 = new Account("user3", "pass3");
@@ -26,7 +29,23 @@ public class Bank extends UnicastRemoteObject implements BankInterface {
 		accounts.add(user2);
 		accounts.add(user3);
 	}
-	
+
+	public static void main(String args[]) throws Exception {	
+		if (System.getSecurityManager() == null) {
+            System.setSecurityManager(new SecurityManager());
+        }
+        try {
+            String name = "Bank";
+            BankInterface bank = new Bank();
+            Registry registry = LocateRegistry.getRegistry();
+            registry.rebind(name, bank);
+            System.out.println("Bank bound");
+        } catch (Exception e) {
+            System.err.println("Bank exception:");
+            e.printStackTrace();
+        }
+	}
+
 	public void login(String username, String password) throws RemoteException, InvalidLogin {
 		for(Account a : accounts) {
 			if(a.getUsername().equals(username) && a.getPassword().equals(password)) {
@@ -41,7 +60,9 @@ public class Bank extends UnicastRemoteObject implements BankInterface {
 		try {
 			Account a = getAccount(account, sessionID);
 			double balance = a.getBalance();
-			a.setBalance(balance + amount);
+			a.setBalance(balance + amount); //need to add more catches here
+			Transaction t = new Transaction(a.getAccountNum(), depositTransaction);
+			a.addTransaction(t);
 		} catch (Exception InvalidAccount) {
 			System.err.println(InvalidAccount.getMessage());
 		}
@@ -54,7 +75,9 @@ public class Bank extends UnicastRemoteObject implements BankInterface {
 			if (amount > balance) {
 				throw new InvalidFunds("msg");
 			} else {
-				a.setBalance(balance = amount);
+				a.setBalance(balance = amount); ////need to add more catches here
+				Transaction t = new Transaction(a.getAccountNum(), withdrawTransaction);
+				a.addTransaction(t);
 			}
 		} catch (Exception InvalidAccount) {
 			System.err.println(InvalidAccount.getMessage());
@@ -73,8 +96,8 @@ public class Bank extends UnicastRemoteObject implements BankInterface {
 		return balance;
 	}
 	
-	public Statement getStatement(Date from, Date to, long sessionID) throws RemoteException, InvalidSession {	
-			Statement s = new Statement();
+	public Statement getStatement(Account acc,Date from, Date to, long sessionID) throws RemoteException, InvalidSession {
+			Statement s = new Statement(acc,from , to);
 			return s;
 	}
 	

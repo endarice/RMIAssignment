@@ -1,19 +1,32 @@
 package server;
 
+import java.util.Date;
+import java.util.List;
+
 public class Account {
+
 	private String username;
 	private String password;
 	
 	private double balance;
 	
-	private int accountNum = 13463878;
+	private static int accountNum = 13463878;
+
+	private Date startDate;
+	private Date endDate;
+
+	private List<Transaction> transactions;
 	
 	public Account(String username, String password) {
+
 		this.setUsername(username);
 		this.setPassword(password);
 		
 		this.setBalance(0);
 		this.accountNum ++;
+
+		this.startDate = new Date();
+
 	}
 
 	public double getBalance() {
@@ -47,4 +60,17 @@ public class Account {
 	public void setAccountNum(int accountNum) {
 		this.accountNum = accountNum;
 	}
+
+	public Date getStartDate() {
+		return startDate;
+	}
+
+	public List<Transaction> getTransactions() {
+		return transactions;
+	}
+
+	public void addTransaction(Transaction t){
+		transactions.add(t);
+	}
+
 }

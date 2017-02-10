@@ -1,44 +1,70 @@
 package server;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import interfaces.StatementInterface;
 
-public class Statement implements StatementInterface {
+public class Statement implements StatementInterface, Serializable {
 
-	public Statement () {
-		
+	/*This is for generating a statement on specific Account*/
+
+	private Account account;
+	private Date start;
+	private Date end;
+	private List<Transaction> theTransactions;
+
+	public Statement (Account acc, Date from, Date to) {
+
+		this.account = acc;
+		this.start = from;
+		this.end = to;
+		this.theTransactions = new ArrayList<>();
+		sortTransactions();
 	}
 	
 	@Override
-	public int getAccountnum() {
-		// TODO Auto-generated method stub
-		return 0;
+	public int getAccountNum() {
+		return account.getAccountNum();
+	}
+
+	public Account getAccount(){
+		return this.getAccount();
 	}
 
 	@Override
 	public Date getStartDate() {
-		// TODO Auto-generated method stub
-		return null;
+		return start;
 	}
 
 	@Override
 	public Date getEndDate() {
-		// TODO Auto-generated method stub
-		return null;
+		return end;
 	}
 
 	@Override
-	public String getAccoutName() {
-		// TODO Auto-generated method stub
-		return null;
+	public String getAccountName() {
+		return account.getUsername();
 	}
 
 	@Override
-	public List getTransations() {
-		// TODO Auto-generated method stub
-		return null;
+	public List getTransactions() {
+		return theTransactions;
 	}
+
+	public void sortTransactions(){
+		for (Transaction t: getAccount().getTransactions()){
+
+			if(!t.getDatecreated().before(getStartDate()) && !t.getDatecreated().after(getEndDate()) ){
+				theTransactions.add(t);
+			}
+
+		}
+
+	}
+
+
 
 }
