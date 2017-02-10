@@ -8,18 +8,16 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import Sessions.Shesh;
+import exceptions.*;
 import interfaces.BankInterface;
-
-import exceptions.InvalidSession;
-import exceptions.InvalidLogin;
-import exceptions.InvalidAccount;
-import exceptions.InvalidFunds;
 
 public class Bank extends UnicastRemoteObject implements BankInterface {
 
 	private static List<Account> accounts = new ArrayList<Account>(); // users accounts
 	private static String withdrawTransaction = "withdraw Transaction";
 	private static String depositTransaction = "Deposit Transaction";
+    private static List<Shesh> shessions = new ArrayList<>();
 
 	public Bank() throws RemoteException {
 		Account user1 = new Account("user1", "pass1");
@@ -46,10 +44,15 @@ public class Bank extends UnicastRemoteObject implements BankInterface {
         }
 	}
 
-	public void login(String username, String password) throws RemoteException, InvalidLogin {
+	public long login(String username, String password) throws RemoteException, InvalidLogin {
 		for(Account a : accounts) {
 			if(a.getUsername().equals(username) && a.getPassword().equals(password)) {
 				System.out.println("Successful Login");
+				Shesh userSession =  new Shesh(a);
+                shessions.add(userSession);
+
+                return userSession.getSessionID();
+
 			} else {
 				throw new InvalidLogin("msg");
 			}
@@ -57,49 +60,70 @@ public class Bank extends UnicastRemoteObject implements BankInterface {
 	}
 		
 	public void deposit(int account, int amount, long sessionID) throws RemoteException, InvalidSession {
-		try {
-			Account a = getAccount(account, sessionID);
-			double balance = a.getBalance();
-			a.setBalance(balance + amount); //need to add more catches here
-			Transaction t = new Transaction(a.getAccountNum(), depositTransaction);
-			a.addTransaction(t);
-		} catch (Exception InvalidAccount) {
-			System.err.println(InvalidAccount.getMessage());
-		}
+
+        if(getShesh(sessionID)){
+
+            try {
+                Account a = getAccount(account, sessionID);
+                double balance = a.getBalance();
+                a.setBalance(balance + amount); //need to add more catches here
+                Transaction t = new Transaction(a.getAccountNum(), depositTransaction);
+                a.addTransaction(t);
+            } catch (Exception InvalidAccount) {
+                System.err.println(InvalidAccount.getMessage());
+            }
+
+        } throw new InvalidSession("Session has expired, please sign back in");
+
+
 	}
 	
-	public void withdraw(int account, int amount, long sessionID) throws RemoteException, InvalidSession, InvalidFunds {
-		try {
-			Account a = getAccount(account, sessionID);
-			double balance = a.getBalance();
-			if (amount > balance) {
-				throw new InvalidFunds("msg");
-			} else {
-				a.setBalance(balance = amount); ////need to add more catches here
-				Transaction t = new Transaction(a.getAccountNum(), withdrawTransaction);
-				a.addTransaction(t);
-			}
-		} catch (Exception InvalidAccount) {
-			System.err.println(InvalidAccount.getMessage());
-		} 		
+	public void withdraw(int account, int amount, long sessionID) throws RemoteException, InvalidSession, InvalidFunds, InvalidAccount {
+
+        if(getShesh(sessionID)){
+
+            try {
+                Account a = getAccount(account, sessionID);
+                double balance = a.getBalance();
+                if (amount > balance) {
+                    throw new InvalidFunds("msg");
+                } else {
+                    a.setBalance(balance = amount); ////need to add more catches here
+                    Transaction t = new Transaction(a.getAccountNum(), withdrawTransaction);
+                    a.addTransaction(t);
+                }
+            } catch (Exception InvalidAccount) {
+                System.err.println(InvalidAccount.getMessage());
+            }
+
+        } throw new InvalidSession("Session has expired, please sign back in");
+
 	}
 	
-	public double inquiry(int account, long sessionID) throws RemoteException, InvalidSession {	
-		double balance = 0;
-		try {
-			Account a = getAccount(account, sessionID);
-			double bal = a.getBalance();
-			balance = bal;
-		} catch (Exception InvalidAccount) {
-			System.err.println(InvalidAccount.getMessage());
-		} 
-		return balance;
+	public double inquiry(int account, long sessionID) throws RemoteException, InvalidSession {
+
+        if(getShesh(sessionID)) {
+
+            double balance = 0;
+            try {
+                Account a = getAccount(account, sessionID);
+                double bal = a.getBalance();
+                balance = bal;
+            } catch (Exception InvalidAccount) {
+                System.err.println(InvalidAccount.getMessage());
+            }
+            return balance;
+        }
+        throw new InvalidSession("The Sessions has expired, , please sign back in");
 	}
 	
 	public Statement getStatement(Account acc,Date from, Date to, long sessionID) throws RemoteException, InvalidSession {
-			Statement s = new Statement(acc,from , to);
+
+            Statement s = new Statement(acc,from , to);
 			return s;
 	}
+
+	/* ----------- Non-inherited Methods ------------ */
 	
 	public Account getAccount(int account, long sessionID) throws RemoteException, InvalidAccount {
 		for(Account  a : accounts) {
@@ -109,4 +133,23 @@ public class Bank extends UnicastRemoteObject implements BankInterface {
 		}
 		throw new InvalidAccount("msg");
 	}
+
+	public boolean getShesh(long sessionID) throws RemoteException {
+
+            for (Shesh shesh : shessions){
+
+                if(shesh.getSessionID() == sessionID){
+
+                    if(shesh.isAlive() == false){
+                        return false;
+                    }
+                    else{
+                        shesh.resetTimerCount(0);
+                        return true;
+                    }
+                } // end of first if
+            } // end of for loop
+           return false;
+    }
+
 }
