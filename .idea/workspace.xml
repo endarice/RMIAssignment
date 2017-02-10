@@ -1,32 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="fa8ed223-de34-4e79-b336-0b21b8ba6573" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/out/production/RMIAssignment/client/ATM.class" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/out/production/RMIAssignment/exceptions/InvalidAccount.class" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/out/production/RMIAssignment/exceptions/InvalidFunds.class" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/out/production/RMIAssignment/exceptions/InvalidLogin.class" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/out/production/RMIAssignment/exceptions/InvalidSession.class" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/out/production/RMIAssignment/interfaces/BankInterface.class" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/out/production/RMIAssignment/interfaces/StatementInterface.class" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/out/production/RMIAssignment/server/Account.class" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/out/production/RMIAssignment/server/Bank.class" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/out/production/RMIAssignment/server/Statement.class" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Sessions/sessions.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/server/Transaction.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/client/ATM.class" afterPath="$PROJECT_DIR$/bin/client/ATM.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/server/Bank.class" afterPath="$PROJECT_DIR$/bin/server/Bank.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/RMIAssignment.iml" afterPath="$PROJECT_DIR$/RMIAssignment.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/client/ATM.java" afterPath="$PROJECT_DIR$/src/client/ATM.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/interfaces/BankInterface.java" afterPath="$PROJECT_DIR$/src/interfaces/BankInterface.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/interfaces/StatementInterface.java" afterPath="$PROJECT_DIR$/src/interfaces/StatementInterface.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/server/Account.java" afterPath="$PROJECT_DIR$/src/server/Account.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/server/Bank.java" afterPath="$PROJECT_DIR$/src/server/Bank.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/server/Statement.java" afterPath="$PROJECT_DIR$/src/server/Statement.java" />
-    </list>
+    <list default="true" id="fa8ed223-de34-4e79-b336-0b21b8ba6573" name="Default" comment="" />
     <ignored path="RMIAssignment.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path="$PROJECT_DIR$/out/" />
@@ -116,8 +91,8 @@
           <file leaf-file-name="Bank.java" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/server/Bank.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="-201">
-                  <caret line="36" column="13" selection-start-line="36" selection-start-column="13" selection-end-line="36" selection-end-column="13" />
+                <state relative-caret-position="825">
+                  <caret line="80" column="13" selection-start-line="80" selection-start-column="13" selection-end-line="80" selection-end-column="13" />
                   <folding />
                 </state>
               </provider>
@@ -836,12 +811,12 @@
       <workItem from="1486722374537" duration="3862000" />
       <workItem from="1486734814551" duration="37000" />
       <workItem from="1486737284775" duration="54000" />
-      <workItem from="1486737339542" duration="21000" />
+      <workItem from="1486737339542" duration="154000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="7956000" />
+    <option name="totallyTimeSpent" value="8089000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1138,8 +1113,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/server/Bank.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-201">
-          <caret line="36" column="13" selection-start-line="36" selection-start-column="13" selection-end-line="36" selection-end-column="13" />
+        <state relative-caret-position="825">
+          <caret line="80" column="13" selection-start-line="80" selection-start-column="13" selection-end-line="80" selection-end-column="13" />
           <folding />
         </state>
       </provider>
