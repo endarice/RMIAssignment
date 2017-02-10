@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
+
     <list default="true" id="fa8ed223-de34-4e79-b336-0b21b8ba6573" name="Default" comment="">
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Sessions/Shesh.java" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/src/Sessions/sessions.java" afterPath="" />
@@ -8,6 +9,7 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/interfaces/BankInterface.java" afterPath="$PROJECT_DIR$/src/interfaces/BankInterface.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/server/Bank.java" afterPath="$PROJECT_DIR$/src/server/Bank.java" />
     </list>
+
     <ignored path="RMIAssignment.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path="$PROJECT_DIR$/out/" />
@@ -113,6 +115,7 @@
           <file leaf-file-name="Bank.java" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/server/Bank.java">
               <provider selected="true" editor-type-id="text-editor">
+
                 <state relative-caret-position="1470">
                   <caret line="109" column="36" selection-start-line="109" selection-start-column="36" selection-end-line="109" selection-end-column="36" />
                   <folding />
@@ -125,6 +128,7 @@
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="30">
                   <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+
                   <folding />
                 </state>
               </provider>
@@ -862,13 +866,17 @@
       <workItem from="1486722374537" duration="3862000" />
       <workItem from="1486734814551" duration="37000" />
       <workItem from="1486737284775" duration="54000" />
+
       <workItem from="1486737339542" duration="21000" />
       <workItem from="1486737667300" duration="8711000" />
+
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
+
     <option name="totallyTimeSpent" value="16667000" />
+
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1295,8 +1303,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/exceptions/InvalidFunds.java">
       <provider selected="true" editor-type-id="text-editor">
+
         <state relative-caret-position="30">
           <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+
           <folding />
         </state>
       </provider>
