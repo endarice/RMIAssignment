@@ -8,6 +8,7 @@ import exceptions.InvalidSession;
 import exceptions.InvalidLogin;
 import exceptions.InvalidFunds;
 
+import server.Account;
 import server.Statement;
 
 public interface BankInterface extends Remote {
@@ -20,6 +21,6 @@ public interface BankInterface extends Remote {
 
 		public double inquiry(int accountnum, long sessionID) throws RemoteException, InvalidSession;
 
-		public Statement getStatement(Date from, Date to, long sessionID) throws RemoteException, InvalidSession;
+		public Statement getStatement(Account acc, Date from, Date to, long sessionID) throws RemoteException, InvalidSession;
 }
 
