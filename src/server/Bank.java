@@ -29,8 +29,8 @@ public class Bank extends UnicastRemoteObject implements BankInterface {
 		accounts.add(user2);
 		accounts.add(user3);
 	}
-	
-	public static void main(String args[]) throws Exception {
+
+	public static void main(String args[]) throws Exception {	
 		if (System.getSecurityManager() == null) {
             System.setSecurityManager(new SecurityManager());
         }
