@@ -50,7 +50,7 @@ public class Statement implements StatementInterface, Serializable {
 	}
 
 	@Override
-	public List getTransactions() {
+	public List<Transaction> getTransactions() {
 		return theTransactions;
 	}
 
@@ -60,11 +60,6 @@ public class Statement implements StatementInterface, Serializable {
 			if(!t.getDatecreated().before(getStartDate()) && !t.getDatecreated().after(getEndDate()) ){
 				theTransactions.add(t);
 			}
-
 		}
-
 	}
-
-
-
 }

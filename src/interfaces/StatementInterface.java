@@ -3,6 +3,8 @@ package interfaces;
 import java.io.Serializable;
 import java.util.*;
 
+import server.Transaction;
+
 public interface StatementInterface extends Serializable {
 
 	public int getAccountNum();  // returns account number associated with this statement
@@ -13,6 +15,5 @@ public interface StatementInterface extends Serializable {
 
 	public String getAccountName(); // returns name of account holder
 
-	public List  getTransactions(); // returns list of Transaction objects that encapsulate details about each transaction
-
+	public List<Transaction>  getTransactions(); // returns list of Transaction objects that encapsulate details about each transaction
 }

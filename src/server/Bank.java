@@ -57,10 +57,10 @@ public class Bank extends UnicastRemoteObject implements BankInterface {
 				throw new InvalidLogin("msg");
 			}
 		}
+		return 0;
 	}
 		
-	public void deposit(int account, int amount, long sessionID) throws RemoteException, InvalidSession {
-
+	public void deposit(int account, double amount, long sessionID) throws RemoteException, InvalidSession {
         if(getShesh(sessionID)){
 
             try {
@@ -74,14 +74,10 @@ public class Bank extends UnicastRemoteObject implements BankInterface {
             }
 
         } throw new InvalidSession("Session has expired, please sign back in");
-
-
 	}
 	
-	public void withdraw(int account, int amount, long sessionID) throws RemoteException, InvalidSession, InvalidFunds, InvalidAccount {
-
+	public void withdraw(int account, double amount, long sessionID) throws RemoteException, InvalidSession, InvalidFunds, InvalidAccount {
         if(getShesh(sessionID)){
-
             try {
                 Account a = getAccount(account, sessionID);
                 double balance = a.getBalance();
@@ -97,13 +93,10 @@ public class Bank extends UnicastRemoteObject implements BankInterface {
             }
 
         } throw new InvalidSession("Session has expired, please sign back in");
-
 	}
 	
 	public double inquiry(int account, long sessionID) throws RemoteException, InvalidSession {
-
         if(getShesh(sessionID)) {
-
             double balance = 0;
             try {
                 Account a = getAccount(account, sessionID);
@@ -114,12 +107,17 @@ public class Bank extends UnicastRemoteObject implements BankInterface {
             }
             return balance;
         }
-        throw new InvalidSession("The Sessions has expired, , please sign back in");
+        throw new InvalidSession("The Sessions has expired, , please sign back in");	
 	}
 	
-	public Statement getStatement(Account acc,Date from, Date to, long sessionID) throws RemoteException, InvalidSession {
-
-            Statement s = new Statement(acc,from , to);
+	public Statement getStatement(int accountnum, Date from, Date to, long sessionID) throws RemoteException, InvalidSession {
+			Statement s = null;
+			try {
+				Account a = getAccount(accountnum, sessionID);
+				s = new Statement(a,from , to);
+			} catch (InvalidAccount InvalidAccount) {
+				InvalidAccount.printStackTrace();
+			}
 			return s;
 	}
 
@@ -135,11 +133,8 @@ public class Bank extends UnicastRemoteObject implements BankInterface {
 	}
 
 	public boolean getShesh(long sessionID) throws RemoteException {
-
             for (Shesh shesh : shessions){
-
                 if(shesh.getSessionID() == sessionID){
-
                     if(shesh.isAlive() == false){
                         return false;
                     }
@@ -151,5 +146,4 @@ public class Bank extends UnicastRemoteObject implements BankInterface {
             } // end of for loop
            return false;
     }
-
 }

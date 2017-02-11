@@ -26,7 +26,6 @@ public class Account {
 		this.accountNum ++;
 
 		this.startDate = new Date();
-
 	}
 
 	public double getBalance() {
