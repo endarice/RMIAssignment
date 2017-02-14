@@ -13,9 +13,9 @@ public interface BankInterface extends Remote {
 
 		public long login(String username, String password) throws RemoteException, InvalidLogin;
 
-		public void deposit(int accountnum, double amount, long sessionID) throws RemoteException, InvalidSession;
+		public double deposit(int accountnum, double amount, long sessionID) throws RemoteException, InvalidSession,InvalidAccount;
 
-		public void withdraw(int accountnum, double amount, long sessionID) throws RemoteException, InvalidSession, InvalidFunds, InvalidAccount;
+		public double withdraw(int accountnum, double amount, long sessionID) throws RemoteException, InvalidSession, InvalidFunds, InvalidAccount;
 
 		public double inquiry(int accountnum, long sessionID) throws RemoteException, InvalidSession;
 

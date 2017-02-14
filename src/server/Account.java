@@ -10,7 +10,7 @@ public class Account {
 	
 	private double balance;
 	
-	private static int accountNum = 13463878;
+	private static int accountNum = 1378;
 
 	private Date startDate;
 	private Date endDate;

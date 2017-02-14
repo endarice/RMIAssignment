@@ -62,4 +62,17 @@ public class Statement implements StatementInterface, Serializable {
 			}
 		}
 	}
+
+
+
+	public String toString(){
+
+        StringBuilder sb = new StringBuilder();
+        for (Transaction t : theTransactions){
+            sb.append(t.toString());
+        }
+
+        return sb.toString();
+
+    }
 }

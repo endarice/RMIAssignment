@@ -35,7 +35,7 @@ public class Transaction implements Serializable {
     }
 
     public String toString(){
-        return "Account number : " + getAccNum() + " | Transaction :" + getType() +
+        return "\nAccount number : " + getAccNum() + " | Transaction :" + getType() +
                 "Date Created " + dateCreated.toString() ;
     }
 

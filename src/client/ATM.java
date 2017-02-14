@@ -19,9 +19,12 @@ public class ATM {
 	static double amount;
 	static long sessionID;
 	static Date from, to;
+    static double balance;
+
 	
 	public static void main(String args[]) {
         if (System.getSecurityManager() == null) {
+            System.setProperty("java.security.policy", "file:/Users/DJ/projects/RMIAssignment/src/all.policy");
             System.setSecurityManager(new SecurityManager());
         }
         try {
@@ -32,11 +35,13 @@ public class ATM {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         switch(operation) {
         	case "login" :
         		try {
         			bank.login(username, password);
-        		} catch (InvalidLogin InvalidLogin) {
+                    System.out.println("\nLogged in " + username);
+                } catch (InvalidLogin InvalidLogin) {
         			System.err.println(InvalidLogin.getMessage());
         		} catch (RemoteException RemoteException) {
         			System.err.println(RemoteException.getMessage());
@@ -44,30 +49,38 @@ public class ATM {
         		break;
         	case "deposit" :
         		try {
-        			bank.deposit(account, amount, sessionID);
-        		} catch (RemoteException RemoteException) {
+        		    balance = bank.deposit(account, amount, sessionID);
+                    System.out.println("\nDeposit Success");
+                    System.out.println("Balance is " + balance);
+                } catch (RemoteException RemoteException) {
         			System.err.println(RemoteException.getMessage());
         		} catch (InvalidSession InvalidSession) {
-        			System.err.println(InvalidSession.getMessage());
-        		}
-        		break;
+                    System.err.println(InvalidSession.getMessage());
+        		} catch (InvalidAccount invalidAccount) {
+                    invalidAccount.printStackTrace();
+                }
+                break;
         	case "withdraw" :
         		try {
-        			bank.withdraw(account, amount, sessionID);
-        		} catch (RemoteException RemoteException) {
+        			balance = bank.withdraw(account, amount, sessionID);
+                    System.out.println("\nWithdraw Success");
+                    System.out.println("Balance is " + balance);
+                } catch (RemoteException RemoteException) {
         			System.err.println(RemoteException.getMessage());
         		} catch (InvalidFunds InvalidFunds) {
         			System.err.println(InvalidFunds.getMessage());
         		} catch (InvalidSession InvalidSession) {
-        			System.err.println(InvalidSession.getMessage());
+        			System.err.println("YOYOYOYOYO");
         		} catch (InvalidAccount InvalidAccount) {
         			System.err.println(InvalidAccount.getMessage());
         		}       		
         		break;
         	case "inquiry" :
         		try {
-        			bank.inquiry(account, sessionID);
-        		} catch (RemoteException RemoteException) {
+        			balance = bank.inquiry(account, sessionID);
+                    System.out.println("\nInquiry Success");
+                    System.out.println("Balance is " + balance);
+                } catch (RemoteException RemoteException) {
         			System.err.println(RemoteException.getMessage());
         		} catch (InvalidSession InvalidSession) {
         			System.err.println(InvalidSession.getMessage());
@@ -75,8 +88,9 @@ public class ATM {
         		break;
         	case "statement" :
         		try {
-        			bank.getStatement(account, from, to, sessionID);
-        		} catch (RemoteException RemoteException) {
+                    System.out.println(bank.getStatement(account, from, to, sessionID));
+                    System.out.println("\nStatement Success");
+                } catch (RemoteException RemoteException) {
         			System.err.println(RemoteException.getMessage());
         		} catch (InvalidSession InvalidSession) {
         			System.err.println(InvalidSession.getMessage());
@@ -91,17 +105,26 @@ public class ATM {
 	    	case "login" :
 	    		username = args[3];
 	    		password = args[4];
+                break;
 	    	case "deposit" :
+                account = Integer.parseInt(args[3]);
+                sessionID = Integer.parseInt(args[4]);
+                amount = Double.parseDouble(args[5]);
+                break;
+            case "withdraw":
 	    		account = Integer.parseInt(args[3]);
-	    		amount = Double.parseDouble(args[4]);
-	    	case "withdraw" :
-	    		account = Integer.parseInt(args[3]);
-	    		amount = Double.parseDouble(args[4]);
+                sessionID = Integer.parseInt(args[4]);
+	    		amount = Double.parseDouble(args[5]);
+                break;
 	    	case "inquiry" :
 	    		account = Integer.parseInt(args[3]);
+                sessionID = Integer.parseInt(args[4]);
+                break;
 	    	case "statement" :
-	    		from = new Date(args[3]);
+	    		account =  Integer.parseInt(args[3]);
 	    		from = new Date(args[4]);
+	    		from = new Date(args[5]);
+                break;
 		} 
     }
 }

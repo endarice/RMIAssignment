@@ -20,10 +20,10 @@ public class Shesh extends TimerTask {
     private volatile boolean isAlive; //must be about volatile
 
     private int timerCount; // keeps track of how long it will run
-    private final int maxTimeForSession = 300;
+    private final static int maxTimeForSession = 300;
     private Timer timer;
 
-    public static long sessionID = 872354872;
+    public static long sessionID = 872;
     private long userSessionID;
 
     public Shesh(Account account){
@@ -33,9 +33,10 @@ public class Shesh extends TimerTask {
         this.isAlive = true; // starting sessions boolean
         this.timer = new Timer();
         this.timerCount = 0;
-        this.userSessionID = sessionID++;
+        this.sessionID++;
+        this.userSessionID = sessionID;
 
-        startingSessionTimer();
+        this.timer.scheduleAtFixedRate(this, new Date(System.currentTimeMillis()), 1000 );
 
     }
 
@@ -55,10 +56,6 @@ public class Shesh extends TimerTask {
 
     }
 
-    public void startingSessionTimer(){
-        this.timer.scheduleAtFixedRate(this, new Date(), 1000 );
-    }
-
     public static long getSessionID() {
         return sessionID;
     }
@@ -74,6 +71,11 @@ public class Shesh extends TimerTask {
 
     public void resetTimerCount(int timerCount) {
         this.timerCount = timerCount;
+    }
+
+
+    public int getTimerCount() {
+        return maxTimeForSession - timerCount;
     }
 
 

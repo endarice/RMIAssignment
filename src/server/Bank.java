@@ -30,9 +30,11 @@ public class Bank extends UnicastRemoteObject implements BankInterface {
 
 	public static void main(String args[]) throws Exception {	
 		if (System.getSecurityManager() == null) {
+            System.setProperty("java.security.policy", "file:/Users/DJ/projects/RMIAssignment/src/all.policy");
             System.setSecurityManager(new SecurityManager());
         }
         try {
+
             String name = "Bank";
             BankInterface bank = new Bank();
             Registry registry = LocateRegistry.getRegistry();
@@ -47,67 +49,89 @@ public class Bank extends UnicastRemoteObject implements BankInterface {
 	public long login(String username, String password) throws RemoteException, InvalidLogin {
 		for(Account a : accounts) {
 			if(a.getUsername().equals(username) && a.getPassword().equals(password)) {
-				System.out.println("Successful Login");
+
+				System.out.println("\n-----Successful Login-----");
+				System.out.println("User " + a.getUsername() + " has logged in.");
+
 				Shesh userSession =  new Shesh(a);
                 shessions.add(userSession);
+
+                System.out.println("Sessions has started ");
+                System.out.println("Account Number: " + a.getAccountNum() + " | SessionID: " + userSession.getSessionID());
 
                 return userSession.getSessionID();
 
 			} else {
-				throw new InvalidLogin("msg");
+				throw new InvalidLogin("\nInvalidSession error thrown, Please sign back in ");
 			}
 		}
 		return 0;
 	}
 		
-	public void deposit(int account, double amount, long sessionID) throws RemoteException, InvalidSession {
+	public double deposit(int account, double amount, long sessionID) throws RemoteException, InvalidSession, InvalidAccount {
         if(getShesh(sessionID)){
 
+            Account a = getAccount(account, sessionID);
             try {
-                Account a = getAccount(account, sessionID);
+
                 double balance = a.getBalance();
                 a.setBalance(balance + amount); //need to add more catches here
                 Transaction t = new Transaction(a.getAccountNum(), depositTransaction);
                 a.addTransaction(t);
+
             } catch (Exception InvalidAccount) {
                 System.err.println(InvalidAccount.getMessage());
             }
 
-        } throw new InvalidSession("Session has expired, please sign back in");
-	}
+            System.out.println("\n-----Deposit-----");
+            System.out.println("Deposited: " + amount + " | Balance: " + a.getBalance());
+            return a.getBalance();
+        } throw new InvalidSession("\nInvalidSession error thrown, Please sign back in ");
+    }
 	
-	public void withdraw(int account, double amount, long sessionID) throws RemoteException, InvalidSession, InvalidFunds, InvalidAccount {
+	public double withdraw(int account, double amount, long sessionID) throws RemoteException, InvalidSession, InvalidFunds, InvalidAccount {
         if(getShesh(sessionID)){
+
+            Account a = getAccount(account, sessionID);
             try {
-                Account a = getAccount(account, sessionID);
                 double balance = a.getBalance();
                 if (amount > balance) {
-                    throw new InvalidFunds("msg");
+                    throw new InvalidFunds("You do not have enough money in your account");
                 } else {
-                    a.setBalance(balance = amount); ////need to add more catches here
+                    a.setBalance(balance - amount); ////need to add more catches here
                     Transaction t = new Transaction(a.getAccountNum(), withdrawTransaction);
                     a.addTransaction(t);
+
                 }
             } catch (Exception InvalidAccount) {
                 System.err.println(InvalidAccount.getMessage());
             }
 
-        } throw new InvalidSession("Session has expired, please sign back in");
+            System.out.println("\n-----Withdrawal-----");
+            System.out.println("Account: " + a.getAccountNum() + "\nWithdrew: " + amount + " | Balance: " + a.getBalance());
+            return a.getBalance();
+
+        } throw new InvalidSession("\nInvalidSession error thrown, Please sign back in ");
 	}
 	
 	public double inquiry(int account, long sessionID) throws RemoteException, InvalidSession {
         if(getShesh(sessionID)) {
+
             double balance = 0;
             try {
                 Account a = getAccount(account, sessionID);
                 double bal = a.getBalance();
                 balance = bal;
+                System.out.println("\n-----Inquiry Made-----");
+                System.out.println("Account: "+ a.getAccountNum() + "\nBalance : " + bal);
             } catch (Exception InvalidAccount) {
                 System.err.println(InvalidAccount.getMessage());
             }
             return balance;
         }
-        throw new InvalidSession("The Sessions has expired, , please sign back in");	
+        throw new InvalidSession("\nInvalidSession error thrown, Please sign back in ");
+
+
 	}
 	
 	public Statement getStatement(int accountnum, Date from, Date to, long sessionID) throws RemoteException, InvalidSession {
@@ -115,7 +139,8 @@ public class Bank extends UnicastRemoteObject implements BankInterface {
 			try {
 				Account a = getAccount(accountnum, sessionID);
 				s = new Statement(a,from , to);
-			} catch (InvalidAccount InvalidAccount) {
+                System.out.println("\n-----Statement-----");
+            } catch (InvalidAccount InvalidAccount) {
 				InvalidAccount.printStackTrace();
 			}
 			return s;
@@ -136,13 +161,15 @@ public class Bank extends UnicastRemoteObject implements BankInterface {
             for (Shesh shesh : shessions){
                 if(shesh.getSessionID() == sessionID){
                     if(shesh.isAlive() == false){
+                        System.out.println("Session is dead, please sign back in ");
                         return false;
                     }
                     else{
+                        System.out.println("Sessions is still alive : " + shesh.getTimerCount() + " seconds was left.\nTimer is now reset");
                         shesh.resetTimerCount(0);
                         return true;
                     }
-                } // end of first if
+                }
             } // end of for loop
            return false;
     }
